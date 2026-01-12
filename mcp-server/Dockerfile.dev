@@ -1,0 +1,17 @@
+# MCP Server Dockerfile for Development (Using Bun)
+FROM oven/bun:1.0-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package.json bun.lockb* ./
+
+# Install dependencies
+RUN bun install
+
+# Copy application code
+COPY . .
+
+# Start development server with hot reload
+CMD ["bun", "run", "dev"]

@@ -1,0 +1,268 @@
+# ============================================
+# AI Knowledge Copilot - .gitignore
+# ============================================
+
+# ============================================
+# Environment & Secrets
+# ============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+*.pem
+*.key
+*.crt
+
+# ============================================
+# Dependencies
+# ============================================
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Bun
+.bun/
+bun.lockb
+
+# Package manager locks (keep only one)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# Build Outputs & Distribution
+# ============================================
+dist/
+build/
+*.tsbuildinfo
+.cache/
+
+# Backend build
+backend/dist/
+backend/build/
+
+# Frontend build
+frontend/dist/
+frontend/build/
+
+# MCP Server build
+mcp-server/dist/
+mcp-server/build/
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ============================================
+# Testing & Coverage
+# ============================================
+coverage/
+*.lcov
+.nyc_output/
+.coverage/
+junit.xml
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ============================================
+# IDEs & Editors
+# ============================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# Operating Systems
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Application Specific
+# ============================================
+# Uploads directory (user-uploaded files)
+backend/uploads/
+uploads/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database files (if using local DB)
+*.db
+*.sqlite
+*.sqlite3
+
+# MongoDB dumps
+dump/
+
+# ============================================
+# Docker
+# ============================================
+# Docker volumes and data
+docker-compose.override.yml
+.docker/
+
+# ============================================
+# Frontend Specific
+# ============================================
+# Vite
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Next.js (if used in future)
+.next/
+out/
+
+# React/TypeScript
+*.tsbuildinfo
+
+# Static files
+frontend/public/uploads/
+
+# ============================================
+# Backend Specific
+# ============================================
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# MCP Server Specific
+# ============================================
+mcp-server/logs/
+
+# ============================================
+# Documentation & Notes
+# ============================================
+# Personal notes (keep project docs)
+NOTES.md
+TODO.md
+.scratch/
+
+# ============================================
+# Miscellaneous
+# ============================================
+# Sentry
+.sentryclirc
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.parcel-cache
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*

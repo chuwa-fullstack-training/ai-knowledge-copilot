@@ -1,0 +1,77 @@
+# Docker Compose V2 format (version field is deprecated)
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: knowledge-copilot-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - knowledge-copilot-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: knowledge-copilot-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://admin:password@mongodb:27017/knowledge-copilot?authSource=admin
+      JWT_SECRET: dev-secret-change-in-production
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - mongodb
+    networks:
+      - knowledge-copilot-network
+    command: bun run dev
+
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile.dev
+    container_name: knowledge-copilot-mcp
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://admin:password@mongodb:27017/knowledge-copilot?authSource=admin
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - ./mcp-server:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+    networks:
+      - knowledge-copilot-network
+    # Note: MCP server communicates via stdio, not HTTP in development
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: knowledge-copilot-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000/api/v1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - knowledge-copilot-network
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  mongo-data:
+
+networks:
+  knowledge-copilot-network:
+    driver: bridge

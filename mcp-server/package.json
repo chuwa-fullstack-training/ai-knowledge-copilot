@@ -1,0 +1,19 @@
+{
+  "name": "mcp-server",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "bun-types": "^1.3.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "mongoose": "^9.1.2",
+    "openai": "^6.16.0",
+    "winston": "^3.19.0"
+  }
+}
