@@ -13,9 +13,18 @@ The User model has been extended with the following optional fields:
 - **userName**: Unique username (3-30 characters, alphanumeric with underscores and hyphens)
 - **firstName**: User's first name (up to 50 characters)
 - **lastName**: User's last name (up to 50 characters)
-- **avatarUrl**: URL to user's avatar image
+- **avatarUrl**: URL to user's avatar image (auto-generated from Gravatar if not provided)
 
-### 2. Registration with Profile Data
+### 2. Automatic Gravatar Integration
+
+When a user registers without providing an `avatarUrl`, the system automatically generates a Gravatar URL based on their email address. Gravatars provide:
+
+- **Consistent identity** across platforms
+- **Automatic updates** when users update their Gravatar
+- **Default identicon** for users without a Gravatar account
+- **Privacy-friendly** URL-based system
+
+### 3. Registration with Profile Data
 
 Users can now provide profile information during registration:
 
@@ -27,11 +36,13 @@ POST /api/v1/auth/register
   "userName": "john_doe",        // Optional
   "firstName": "John",            // Optional
   "lastName": "Doe",              // Optional
-  "avatarUrl": "https://example.com/avatar.jpg"  // Optional
+  "avatarUrl": "https://example.com/avatar.jpg"  // Optional (Gravatar used if omitted)
 }
 ```
 
-### 3. Profile Management Endpoints
+**Gravatar Auto-Generation**: If `avatarUrl` is not provided, the system generates: `https://www.gravatar.com/avatar/<md5_hash_of_email>?s=200&d=identicon`
+
+### 4. Profile Management Endpoints
 
 #### Get User Profile
 ```typescript

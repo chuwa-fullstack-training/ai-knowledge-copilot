@@ -6,9 +6,16 @@ import logger from '../config/logger';
 export class AuthController {
   async register(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password } = req.body;
+      const { email, password, userName, firstName, lastName, avatarUrl } = req.body;
 
-      const result = await authService.register({ email, password });
+      const result = await authService.register({
+        email,
+        password,
+        userName,
+        firstName,
+        lastName,
+        avatarUrl,
+      });
 
       res.status(201).json({
         user: result.user,

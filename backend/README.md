@@ -47,7 +47,8 @@ backend/
 │   │   └── user.routes.ts      # User profile endpoints
 │   ├── utils/
 │   │   ├── jwt.ts           # JWT helpers
-│   │   └── password.ts      # bcrypt helpers
+│   │   ├── password.ts      # bcrypt helpers
+│   │   └── gravatar.ts      # Gravatar URL generation
 │   ├── app.ts               # Express app setup
 │   └── server.ts            # Server entry point
 ├── tests/
@@ -74,6 +75,7 @@ backend/
 - ✅ Get user profile with all fields
 - ✅ Update user profile (userName, firstName, lastName, avatarUrl)
 - ✅ Delete user account
+- ✅ Auto-generated Gravatar avatars from email addresses
 - ✅ Profile field validation (username pattern, name lengths, URL format)
 - ✅ Backward compatible optional fields
 
@@ -157,10 +159,11 @@ curl -X POST http://localhost:3000/api/v1/auth/register \
     "password": "TestPass123",
     "userName": "testuser",
     "firstName": "Test",
-    "lastName": "User",
-    "avatarUrl": "https://example.com/avatar.jpg"
+    "lastName": "User"
   }'
 ```
+
+**Note**: If `avatarUrl` is not provided, a Gravatar will be automatically generated from the email address.
 
 Response:
 ```json
@@ -171,7 +174,7 @@ Response:
     "userName": "testuser",
     "firstName": "Test",
     "lastName": "User",
-    "avatarUrl": "https://example.com/avatar.jpg",
+    "avatarUrl": "https://www.gravatar.com/avatar/...",
     "role": "member",
     "createdAt": "...",
     "updatedAt": "..."

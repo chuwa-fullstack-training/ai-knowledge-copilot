@@ -1,6 +1,7 @@
 import { User, type IUser } from '../models/User';
 import { hashPassword, comparePassword } from '../utils/password';
 import { generateToken, type JWTPayload } from '../utils/jwt';
+import { generateGravatarUrl } from '../utils/gravatar';
 import logger from '../config/logger';
 
 export interface RegisterData {
@@ -35,6 +36,9 @@ export class AuthService {
     // Hash password
     const passwordHash = await hashPassword(password);
 
+    // Generate Gravatar URL if avatarUrl is not provided
+    const finalAvatarUrl = avatarUrl || generateGravatarUrl(email);
+
     // Create user
     const user = await User.create({
       email,
@@ -42,7 +46,7 @@ export class AuthService {
       userName,
       firstName,
       lastName,
-      avatarUrl,
+      avatarUrl: finalAvatarUrl,
       role: 'member',
     });
 

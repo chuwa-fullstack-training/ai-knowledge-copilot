@@ -100,18 +100,27 @@ router.post(
  *     tags:
  *       - Authentication
  *     summary: Get current user
- *     description: Retrieve the authenticated user's profile information
+ *     description: Retrieve the authenticated user's complete profile information including all profile fields
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Current user profile
+ *         description: Current user profile with all fields
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get('/me', authenticate, authController.me.bind(authController));
 
