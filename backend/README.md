@@ -18,16 +18,19 @@ backend/
 │   ├── config/
 │   │   ├── database.ts      # MongoDB connection
 │   │   ├── env.ts           # Environment validation (Zod)
-│   │   └── logger.ts        # Winston logger
+│   │   ├── logger.ts        # Winston logger
+│   │   └── swagger.ts       # Swagger/OpenAPI config
 │   ├── models/
-│   │   ├── User.ts          # User schema
+│   │   ├── User.ts          # User schema (with profile fields)
 │   │   └── Workspace.ts     # Workspace schema
 │   ├── services/
 │   │   ├── auth.service.ts      # Auth business logic
-│   │   └── workspace.service.ts # Workspace business logic
+│   │   ├── workspace.service.ts # Workspace business logic
+│   │   └── user.service.ts      # User profile business logic
 │   ├── controllers/
 │   │   ├── auth.controller.ts      # Auth HTTP handlers
-│   │   └── workspace.controller.ts # Workspace HTTP handlers
+│   │   ├── workspace.controller.ts # Workspace HTTP handlers
+│   │   └── user.controller.ts      # User profile HTTP handlers
 │   ├── middleware/
 │   │   ├── auth.ts              # JWT authentication
 │   │   ├── authorization.ts     # Workspace access control
@@ -35,11 +38,13 @@ backend/
 │   │   ├── validation.ts        # Zod validation wrapper
 │   │   └── rateLimiter.ts       # Rate limiting
 │   ├── validators/
-│   │   ├── auth.validators.ts      # Auth schemas
-│   │   └── workspace.validators.ts # Workspace schemas
+│   │   ├── auth.validators.ts      # Auth schemas (with profile fields)
+│   │   ├── workspace.validators.ts # Workspace schemas
+│   │   └── user.validators.ts      # User profile schemas
 │   ├── routes/
 │   │   ├── auth.routes.ts      # Auth endpoints
-│   │   └── workspace.routes.ts # Workspace endpoints
+│   │   ├── workspace.routes.ts # Workspace endpoints
+│   │   └── user.routes.ts      # User profile endpoints
 │   ├── utils/
 │   │   ├── jwt.ts           # JWT helpers
 │   │   └── password.ts      # bcrypt helpers
@@ -63,6 +68,14 @@ backend/
 - ✅ JWT verification middleware
 - ✅ Password validation (min 8 chars, uppercase, lowercase, number)
 - ✅ Rate limiting (5 requests per 15 minutes for auth endpoints)
+- ✅ Optional profile fields during registration (userName, firstName, lastName, avatarUrl)
+
+### User Profile Management
+- ✅ Get user profile with all fields
+- ✅ Update user profile (userName, firstName, lastName, avatarUrl)
+- ✅ Delete user account
+- ✅ Profile field validation (username pattern, name lengths, URL format)
+- ✅ Backward compatible optional fields
 
 ### Workspace Management
 - ✅ Create workspace (auto-assign creator as admin)
@@ -141,7 +154,11 @@ curl -X POST http://localhost:3000/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
-    "password": "TestPass123"
+    "password": "TestPass123",
+    "userName": "testuser",
+    "firstName": "Test",
+    "lastName": "User",
+    "avatarUrl": "https://example.com/avatar.jpg"
   }'
 ```
 
@@ -151,6 +168,10 @@ Response:
   "user": {
     "_id": "...",
     "email": "test@example.com",
+    "userName": "testuser",
+    "firstName": "Test",
+    "lastName": "User",
+    "avatarUrl": "https://example.com/avatar.jpg",
     "role": "member",
     "createdAt": "...",
     "updatedAt": "..."
@@ -205,6 +226,31 @@ curl -X POST http://localhost:3000/api/v1/workspaces/{workspaceId}/members \
   }'
 ```
 
+### 8. Get User Profile
+```bash
+curl -X GET http://localhost:3000/api/v1/users/profile \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+### 9. Update User Profile
+```bash
+curl -X PUT http://localhost:3000/api/v1/users/profile \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "userName": "newusername",
+    "firstName": "Updated",
+    "lastName": "Name",
+    "avatarUrl": "https://example.com/new-avatar.jpg"
+  }'
+```
+
+### 10. Delete User Account
+```bash
+curl -X DELETE http://localhost:3000/api/v1/users/account \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ## Validation Rules
 
 ### Registration
@@ -215,6 +261,20 @@ curl -X POST http://localhost:3000/api/v1/workspaces/{workspaceId}/members \
   - At least one uppercase letter
   - At least one lowercase letter
   - At least one number
+- **userName (optional):**
+  - Min 3 characters
+  - Max 30 characters
+  - Alphanumeric with underscores and hyphens only
+- **firstName (optional):** Max 50 characters
+- **lastName (optional):** Max 50 characters
+- **avatarUrl (optional):** Valid URL format
+
+### Profile Update
+- **userName:** Same rules as registration
+- **firstName:** Max 50 characters
+- **lastName:** Max 50 characters
+- **avatarUrl:** Valid URL format
+- All fields are optional in updates
 
 ### Workspace Creation
 - **Name:** 1-100 characters, trimmed
@@ -278,6 +338,10 @@ All errors return consistent JSON format:
 {
   email: string (unique, lowercase, indexed)
   passwordHash: string
+  userName?: string (3-30 chars, alphanumeric with _-)
+  firstName?: string (max 50 chars)
+  lastName?: string (max 50 chars)
+  avatarUrl?: string (valid URL)
   role: 'admin' | 'member'
   createdAt: Date
   updatedAt: Date
@@ -338,6 +402,8 @@ openssl rand -base64 32
 ## References
 
 - [API Documentation](./API.md)
+- [User Profile Management Guide](../docs/USER_PROFILE_MANAGEMENT.md)
+- [Swagger/OpenAPI Documentation](http://localhost:3000/api/v1/docs)
 - [Bun Documentation](https://bun.sh/docs)
 - [Express.js Guide](https://expressjs.com/)
 - [Mongoose Documentation](https://mongoosejs.com/)

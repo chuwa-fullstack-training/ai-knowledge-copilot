@@ -6,6 +6,10 @@ import logger from '../config/logger';
 export interface RegisterData {
   email: string;
   password: string;
+  userName?: string;
+  firstName?: string;
+  lastName?: string;
+  avatarUrl?: string;
 }
 
 export interface LoginData {
@@ -20,7 +24,7 @@ export interface AuthResponse {
 
 export class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
-    const { email, password } = data;
+    const { email, password, userName, firstName, lastName, avatarUrl } = data;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -35,6 +39,10 @@ export class AuthService {
     const user = await User.create({
       email,
       passwordHash,
+      userName,
+      firstName,
+      lastName,
+      avatarUrl,
       role: 'member',
     });
 

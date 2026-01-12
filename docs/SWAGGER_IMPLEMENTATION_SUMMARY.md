@@ -214,9 +214,17 @@ backend/src/config/
 
 | Method | Endpoint | Description | Auth Required | Admin Only |
 |--------|----------|-------------|---------------|------------|
-| POST | /api/v1/auth/register | Register new user | No | No |
+| POST | /api/v1/auth/register | Register new user (with optional profile fields) | No | No |
 | POST | /api/v1/auth/login | Login user | No | No |
 | GET | /api/v1/auth/me | Get current user | Yes | No |
+
+### User Profile Endpoints (3) ✨ *New*
+
+| Method | Endpoint | Description | Auth Required | Admin Only |
+|--------|----------|-------------|---------------|------------|
+| GET | /api/v1/users/profile | Get user profile | Yes | No |
+| PUT | /api/v1/users/profile | Update user profile | Yes | No |
+| DELETE | /api/v1/users/account | Delete user account | Yes | No |
 
 ### Workspace Endpoints (7)
 
@@ -236,7 +244,9 @@ backend/src/config/
 |--------|----------|-------------|---------------|------------|
 | GET | /health | Health check | No | No |
 
-**Total**: 11 endpoints fully documented with OpenAPI 3.0
+**Total**: 14 endpoints fully documented with OpenAPI 3.0
+
+*Note: 3 new User Profile endpoints added on 2026-01-11*
 
 ---
 

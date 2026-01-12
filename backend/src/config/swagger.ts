@@ -63,14 +63,37 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
             format: 'email',
             description: 'User email address',
           },
-          name: {
+          userName: {
             type: 'string',
-            description: 'User name',
+            description: 'Username (3-30 characters, alphanumeric with underscores and hyphens)',
+          },
+          firstName: {
+            type: 'string',
+            description: 'User first name',
+          },
+          lastName: {
+            type: 'string',
+            description: 'User last name',
+          },
+          avatarUrl: {
+            type: 'string',
+            format: 'uri',
+            description: 'User avatar image URL',
+          },
+          role: {
+            type: 'string',
+            enum: ['admin', 'member'],
+            description: 'User role',
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             description: 'User creation timestamp',
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            description: 'User last update timestamp',
           },
         },
       },
@@ -131,6 +154,32 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
             description:
               'Password (min 8 chars, must contain uppercase, lowercase, and number)',
             example: 'SecurePass123',
+          },
+          userName: {
+            type: 'string',
+            minLength: 3,
+            maxLength: 30,
+            pattern: '^[a-zA-Z0-9_-]+$',
+            description: 'Username (optional, alphanumeric with underscores and hyphens)',
+            example: 'john_doe',
+          },
+          firstName: {
+            type: 'string',
+            maxLength: 50,
+            description: 'First name (optional)',
+            example: 'John',
+          },
+          lastName: {
+            type: 'string',
+            maxLength: 50,
+            description: 'Last name (optional)',
+            example: 'Doe',
+          },
+          avatarUrl: {
+            type: 'string',
+            format: 'uri',
+            description: 'Avatar image URL (optional)',
+            example: 'https://example.com/avatar.jpg',
           },
         },
       },
@@ -203,6 +252,37 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
             type: 'string',
             enum: ['admin', 'member'],
             description: 'New member role',
+          },
+        },
+      },
+      UpdateProfileRequest: {
+        type: 'object',
+        properties: {
+          userName: {
+            type: 'string',
+            minLength: 3,
+            maxLength: 30,
+            pattern: '^[a-zA-Z0-9_-]+$',
+            description: 'Username (optional, alphanumeric with underscores and hyphens)',
+            example: 'john_doe',
+          },
+          firstName: {
+            type: 'string',
+            maxLength: 50,
+            description: 'First name (optional)',
+            example: 'John',
+          },
+          lastName: {
+            type: 'string',
+            maxLength: 50,
+            description: 'Last name (optional)',
+            example: 'Doe',
+          },
+          avatarUrl: {
+            type: 'string',
+            format: 'uri',
+            description: 'Avatar image URL (optional)',
+            example: 'https://example.com/avatar.jpg',
           },
         },
       },
@@ -289,6 +369,10 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
     {
       name: 'Authentication',
       description: 'User authentication and registration endpoints',
+    },
+    {
+      name: 'User Profile',
+      description: 'User profile management endpoints',
     },
     {
       name: 'Workspaces',

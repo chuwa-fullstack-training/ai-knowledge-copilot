@@ -9,6 +9,7 @@ import { generalLimiter } from './middleware/rateLimiter';
 import { errorHandler } from './middleware/errorHandler';
 import authRoutes from './routes/auth.routes';
 import workspaceRoutes from './routes/workspace.routes';
+import userRoutes from './routes/user.routes';
 
 export function createApp(): Express {
   const app = express();
@@ -88,6 +89,7 @@ export function createApp(): Express {
   // API routes
   app.use('/api/v1/auth', authRoutes);
   app.use('/api/v1/workspaces', workspaceRoutes);
+  app.use('/api/v1/users', userRoutes);
 
   // 404 handler
   app.use((req: Request, res: Response) => {

@@ -4,6 +4,10 @@ export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
   email: string;
   passwordHash: string;
+  userName?: string;
+  firstName?: string;
+  lastName?: string;
+  avatarUrl?: string;
   role: 'admin' | 'member';
   createdAt: Date;
   updatedAt: Date;
@@ -22,6 +26,26 @@ const userSchema = new Schema<IUser>(
     passwordHash: {
       type: String,
       required: true,
+    },
+    userName: {
+      type: String,
+      trim: true,
+      minlength: 3,
+      maxlength: 30,
+    },
+    firstName: {
+      type: String,
+      trim: true,
+      maxlength: 50,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      maxlength: 50,
+    },
+    avatarUrl: {
+      type: String,
+      trim: true,
     },
     role: {
       type: String,
