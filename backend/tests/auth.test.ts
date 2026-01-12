@@ -17,7 +17,7 @@ describe('Authentication API', () => {
 
   test('Health check endpoint returns 200', async () => {
     const response = await fetch('http://localhost:3000/health');
-    const data = await response.json();
+    const data = (await response.json()) as { status: string };
 
     expect(response.status).toBe(200);
     expect(data.status).toBe('ok');
@@ -35,7 +35,7 @@ describe('Authentication API', () => {
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { error: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe('Validation Error');
   });

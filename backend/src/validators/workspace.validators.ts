@@ -14,8 +14,5 @@ export const inviteMemberSchema = z.object({
 });
 
 export const updateMemberRoleSchema = z.object({
-  role: z.enum(['admin', 'member'], {
-    required_error: 'Role is required',
-    invalid_type_error: 'Role must be either admin or member',
-  }),
+  role: z.enum(['admin', 'member']),
 });

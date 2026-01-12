@@ -9,6 +9,7 @@
     "build": "bun build src/server.ts --outdir ./dist --target bun",
     "test": "bun test",
     "lint": "eslint src/**/*.ts",
+    "check-types": "tsc --noEmit",
     "format": "prettier --write src/**/*.ts"
   },
   "devDependencies": {

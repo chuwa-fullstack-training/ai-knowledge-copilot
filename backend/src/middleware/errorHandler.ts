@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import logger from '../config/logger';
 
 export class AppError extends Error {
   constructor(
     public statusCode: number,
-    public message: string,
+    public override message: string,
     public isOperational = true
   ) {
     super(message);

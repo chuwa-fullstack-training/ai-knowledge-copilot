@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { AuthRequest } from './auth';
+import type { Request, Response, NextFunction } from 'express';
+import type { AuthRequest } from './auth';
 import { workspaceService } from '../services/workspace.service';
 import logger from '../config/logger';
 
@@ -20,8 +20,8 @@ export function checkWorkspaceAccess(requiredRole?: 'admin') {
       }
 
       const workspaceId = req.params.workspaceId;
-      if (!workspaceId) {
-        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID required' });
+      if (!workspaceId || Array.isArray(workspaceId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Valid Workspace ID required' });
         return;
       }
 

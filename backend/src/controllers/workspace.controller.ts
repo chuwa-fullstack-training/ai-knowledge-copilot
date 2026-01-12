@@ -1,5 +1,5 @@
-import { Response } from 'express';
-import { AuthRequest } from '../middleware/auth';
+import type { Response } from 'express';
+import type { AuthRequest } from '../middleware/auth';
 import { workspaceService } from '../services/workspace.service';
 import logger from '../config/logger';
 
@@ -31,6 +31,11 @@ export class WorkspaceController {
   async getById(req: AuthRequest, res: Response): Promise<void> {
     try {
       const { workspaceId } = req.params;
+
+      if (!workspaceId || Array.isArray(workspaceId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID is required' });
+        return;
+      }
 
       const workspace = await workspaceService.getById(workspaceId);
 
@@ -76,6 +81,12 @@ export class WorkspaceController {
       }
 
       const { workspaceId } = req.params;
+
+      if (!workspaceId || Array.isArray(workspaceId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID is required' });
+        return;
+      }
+
       const { userId: invitedUserId, role } = req.body;
 
       const workspace = await workspaceService.inviteMember({
@@ -112,6 +123,11 @@ export class WorkspaceController {
 
       const { workspaceId, userId } = req.params;
 
+      if (!workspaceId || Array.isArray(workspaceId) || !userId || Array.isArray(userId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID and User ID are required' });
+        return;
+      }
+
       const workspace = await workspaceService.removeMember(
         workspaceId,
         req.user.userId,
@@ -144,6 +160,12 @@ export class WorkspaceController {
       }
 
       const { workspaceId, userId } = req.params;
+
+      if (!workspaceId || Array.isArray(workspaceId) || !userId || Array.isArray(userId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID and User ID are required' });
+        return;
+      }
+
       const { role } = req.body;
 
       const workspace = await workspaceService.updateMemberRole({
@@ -179,6 +201,11 @@ export class WorkspaceController {
       }
 
       const { workspaceId } = req.params;
+
+      if (!workspaceId || Array.isArray(workspaceId)) {
+        res.status(400).json({ error: 'Bad Request', message: 'Workspace ID is required' });
+        return;
+      }
 
       await workspaceService.delete(workspaceId, req.user.userId);
 

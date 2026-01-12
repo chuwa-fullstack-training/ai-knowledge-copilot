@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { z, ZodSchema } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+import { z, type ZodSchema } from 'zod';
 import logger from '../config/logger';
 
 export function validate(schema: ZodSchema) {
@@ -11,10 +11,10 @@ export function validate(schema: ZodSchema) {
       if (error instanceof z.ZodError) {
         logger.warn('Validation error:', {
           path: req.path,
-          errors: error.errors,
+          errors: error.issues,
         });
 
-        const formattedErrors = error.errors.map((err) => ({
+        const formattedErrors = error.issues.map((err) => ({
           field: err.path.join('.'),
           message: err.message,
         }));
@@ -26,6 +26,13 @@ export function validate(schema: ZodSchema) {
         });
         return;
       }
+
+      // Log unexpected error types for debugging
+      logger.error('Unexpected validation error:', {
+        path: req.path,
+        errorType: error?.constructor?.name,
+        error: error,
+      });
 
       next(error);
     }

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { verifyToken, type JWTPayload } from '../utils/jwt';
 import logger from '../config/logger';
 
