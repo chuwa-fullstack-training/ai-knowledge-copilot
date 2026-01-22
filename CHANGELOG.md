@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-01-21
+
+### Added
+- **Document Upload & Management**: Complete document management system (Phase 2)
+  - POST `/api/v1/workspaces/:workspaceId/documents/upload` - Upload document with multipart/form-data
+  - GET `/api/v1/workspaces/:workspaceId/documents` - List documents with pagination and filtering
+  - GET `/api/v1/documents/:documentId` - Get single document by ID
+  - PATCH `/api/v1/documents/:documentId/status` - Update document processing status
+  - DELETE `/api/v1/documents/:documentId` - Delete document and file
+  - GET `/api/v1/workspaces/:workspaceId/documents/stats` - Get workspace document statistics
+
+- **File Upload System**
+  - Multer middleware with file type validation
+  - Support for PDF, Word, Excel, PowerPoint, Text, Markdown, CSV
+  - File size limit: 50MB
+  - Unique filename generation with timestamp and random hash
+  - Sanitized filenames for security
+  - Error handling for upload failures
+
+- **Storage Service**
+  - Local filesystem storage
+  - File metadata extraction
+  - File operations: delete, exists, stats, move
+  - Path validation for security
+  - Cleanup functionality for old files
+
+- **Document Status Workflow**
+  - Status tracking: uploading → uploaded → indexing → indexed/failed
+  - Error message storage for failed documents
+  - Status update endpoint for indexing pipeline integration
+
+- **Frontend Components**
+  - DocumentList component with status indicators
+  - DocumentUpload component with drag-and-drop
+  - Real-time upload progress tracking
+  - Document statistics dashboard
+  - Empty states and loading indicators
+
+### Changed
+- **Document Model**: Comprehensive schema for document management
+  - workspaceId, title, originalName, fileName, filePath
+  - mimeType, size, status, uploadedBy, errorMessage
+  - Compound indexes for performance
+
+- **API Documentation**: Extended Swagger schemas
+  - Document schema with all fields
+  - Upload endpoint with multipart/form-data
+  - Pagination parameters and responses
+  - Statistics response format
+
+### Documentation
+- Added `docs/PHASE_2_IMPLEMENTATION_SUMMARY.md` - Complete implementation overview
+- Added `docs/DOCUMENT_API_REFERENCE.md` - Comprehensive API reference guide
+- Updated `IMPLEMENTATION_BRIEF.md` - Marked Phase 2 as completed
+- Updated `README.md` - Added Phase 2 status and features
+
+### Security
+- Workspace membership validation on all document operations
+- File type validation (whitelist approach)
+- File size limits to prevent abuse
+- Sanitized filenames to prevent path traversal
+- Rate limiting on upload endpoint (10 uploads per 15 minutes)
+
+### Technical Details
+- New backend files: Document.ts, upload.ts, storage.service.ts, document.service.ts, document.controller.ts, document.validators.ts, document.routes.ts
+- New frontend files: document.ts (API), DocumentList.tsx, DocumentUpload.tsx, DocumentsPage.tsx
+- Build verified: TypeScript compilation successful, no errors
+- Frontend bundle: 395.73 kB (129.01 kB gzipped)
+
+### Performance
+- Cursor-based pagination for large document lists
+- Compound MongoDB indexes for efficient queries
+- Aggregation pipeline for statistics
+- File upload progress tracking with XMLHttpRequest
+
 ## [1.1.0] - 2026-01-11
 
 ### Added

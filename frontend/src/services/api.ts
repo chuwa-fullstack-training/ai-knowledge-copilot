@@ -35,14 +35,20 @@ export interface Workspace {
   updatedAt: string;
 }
 
+export type DocumentStatus = 'uploading' | 'uploaded' | 'indexing' | 'indexed' | 'failed';
+
 export interface Document {
   _id: string;
   workspaceId: string;
   title: string;
-  content: string;
-  type: 'markdown' | 'text' | 'code';
-  tags: string[];
-  createdBy: string;
+  originalName: string;
+  fileName: string;
+  filePath: string;
+  mimeType: string;
+  size: number;
+  status: DocumentStatus;
+  uploadedBy: string | User;
+  errorMessage?: string;
   createdAt: string;
   updatedAt: string;
 }

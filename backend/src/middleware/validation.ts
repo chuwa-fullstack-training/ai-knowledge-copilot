@@ -5,7 +5,12 @@ import logger from '../config/logger';
 export function validate(schema: ZodSchema) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      await schema.parseAsync(req.body);
+      // Validate the entire request object (params, query, body)
+      await schema.parseAsync({
+        params: req.params,
+        query: req.query,
+        body: req.body,
+      });
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
